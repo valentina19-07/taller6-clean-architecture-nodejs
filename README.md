@@ -1,103 +1,40 @@
-# Clean Architecture en NodeJS
+﻿# Backend Node.js – Clean Architecture
 
-```
-src
-├── domain
-│   ├── models
-│   │   ├── user.entity.ts
-│   │   └── product.entity.ts
-│   └── repositories
-│       ├── user.repository.ts
-│       └── product.repository.ts
-│
-├── application
-│   └── use-cases
-│       ├── get-all-users.usecase.ts
-│       └── get-all-products.usecase.ts
-│
-├── infrastructure
-│   ├── controllers
-│   │   ├── user.controller.ts
-│   │   └── product.controller.ts
-│   ├── repositories
-│   │   ├── user.repository.impl.ts
-│   │   └── product.repository.impl.ts
-│   ├── datasources
-│   │   ├── user.datasource.ts
-│   │   └── product.datasource.ts
-│   └── web
-│       ├── config/
-│       ├── errors/
-│       ├── interfaces/
-│       ├── controllers/
-│       ├── routes/
-│       └── server.ts
-│
-└── app.ts
-```
+API REST en Node.js + Express + TypeScript con 3 módulos: **Users, Products y Books**.
 
-## Paso 1 - Crear Modelos
+## Arquitectura
 
-```
-src//domain/models/
-├── user.model.ts
-└── product.model.ts
-```
+| Capa | Carpeta | Responsabilidad |
+|---|---|---|
+| Domain | `src/domain` | Modelos y contratos (clases abstractas de repositorio). No depende de nada. |
+| Application | `src/application/usecases` | Casos de uso. Dependen solo de los contratos del dominio. |
+| Infrastructure | `src/infrastructure` | Datasources (faker), implementaciones de repositorio y capa web. |
+| Web | `src/infrastructure/web` | Express: servidor, rutas, controllers, errores y Swagger. |
 
-## Paso 2 - Crear Repositorios
+Flujo de una petición: `Ruta -> Controller -> Caso de uso -> Repositorio (contrato) -> Repositorio Impl -> Datasource`.
 
-```
-src/domain/repositories/
-├── user.repository.ts
-└── product.repository.ts
-```
+**Inyección de dependencias:** se compone manualmente en cada archivo `*.routes.ts`
+(datasource -> repositorio impl -> caso de uso -> controller).
 
-## Paso 3 - Crear Casos de Uso
+## Ejecución
 
-```
-src/application/usecases/
-├── get-all-users.usecase.ts
-└── get-all-products.usecase.ts
-```
-
-## Paso 4 - Crear Datasources
-
-```
-src/infrastructure/datasource/
-├── user.datasource.ts
-└── product.datasource.ts
-```
-
-## Paso 5 - Crear Repositorios Implementadores
-
-```
-src/infrastructure/repositories/
-├── user.repository.impl.ts
-└── product.repository.impl.ts
-```
-
-## Paso 6 - Implementar Web (Express – Framework Externo)
-
-```
-src/infrastructure/web/
-├── config/
-├── errors/
-├── interfaces/
-├── controllers/
-├── routes/
-└── server.ts
-```
-
-# Funcionamiento del Backend
-
-## Ejecutar Backend
-```
+```bash
+npm install
 npm run start
 ```
 
-## Urls Consumo
-```
-http://localhost:3000/api/docs
-http://localhost:3000/api/users/{countUsers}
-http://localhost:3000/api/products/{countProducts}
-```
+Servidor: `http://localhost:3000`
+
+## Endpoints
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/api/users/{countUsers}` | Lista de usuarios |
+| GET | `/api/products/{countProducts}` | Lista de productos |
+| GET | `/api/books/{countBooks}` | Lista de libros |
+
+Swagger/OpenAPI: `http://localhost:3000/api/docs`
+
+## Integrantes
+
+Juan · Valen

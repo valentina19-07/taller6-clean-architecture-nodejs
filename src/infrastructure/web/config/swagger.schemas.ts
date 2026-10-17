@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @openapi
  * components:
  *   schemas:
@@ -70,5 +70,41 @@
  *         price:
  *           type: number
  *           example: 4500
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Book:
+ *       type: object
+ *       description: Representa un libro del sistema
+ *       required:
+ *         - id
+ *         - title
+ *         - author
+ *         - genre
+ *         - year
+ *       properties:
+ *         id:
+ *           type: number
+ *           example: 1
+ *         title:
+ *           type: string
+ *           example: Clean Code
+ *         author:
+ *           type: string
+ *           example: Robert C. Martin
+ *         genre:
+ *           type: string
+ *           enum:
+ *             - Ficcion
+ *             - Ciencia
+ *             - Historia
+ *             - Tecnologia
+ *           example: Tecnologia
+ *         year:
+ *           type: number
+ *           example: 2008
  */
 export {};
